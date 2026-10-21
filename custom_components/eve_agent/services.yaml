@@ -1,0 +1,22 @@
+send_event:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: eve_agent
+    event_type:
+      required: true
+      example: motion_detected
+      selector:
+        text:
+    data:
+      example:
+        entity_id: binary_sensor.bewegung_flur
+        area: Flur
+      selector:
+        object:
+    event_id:
+      example: motion-flur-2026-10-21T18:00:00Z
+      selector:
+        text:

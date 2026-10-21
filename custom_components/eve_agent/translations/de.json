@@ -48,5 +48,29 @@
       "reconfigure_successful": "EVE-Konfiguration aktualisiert.",
       "reauth_successful": "Authentifizierung aktualisiert."
     }
+  },
+  "services": {
+    "send_event": {
+      "name": "Ereignis senden",
+      "description": "Sendet ein strukturiertes Ereignis an EVE. Startet kein Gespräch und erzeugt keine Sprachausgabe.",
+      "fields": {
+        "config_entry_id": {
+          "name": "EVE-Installation",
+          "description": "Die EVE-Installation, die das Ereignis empfängt."
+        },
+        "event_type": {
+          "name": "Ereignistyp",
+          "description": "Frei wählbarer Typ, zum Beispiel motion_detected."
+        },
+        "data": {
+          "name": "Ereignisdaten",
+          "description": "Die unverändert übertragenen JSON-Daten."
+        },
+        "event_id": {
+          "name": "Ereignis-ID",
+          "description": "Optional: dieselbe ID und dieselben Daten verhindern eine doppelte Speicherung. Sonst wird eine neue ID erzeugt."
+        }
+      }
+    }
   }
 }

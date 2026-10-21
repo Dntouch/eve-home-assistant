@@ -3,7 +3,7 @@
 ## Aktueller Stand
 
 - Repository: [Dntouch/eve-home-assistant](https://github.com/Dntouch/eve-home-assistant)
-- Entwicklung auf `main`, Manifest-Version: `0.1.0`.
+- Entwicklung auf `main`, Manifest-Version: `0.2.0`.
 - Lizenz: [MIT](../LICENSE).
 - Installation über HACS als benutzerdefiniertes Repository vom Typ **Integration**.
   Die Anleitung steht in der [README](../README.md#installation-über-hacs-empfohlen).
@@ -11,10 +11,13 @@
 
 ## Prüfstand
 
-Am 21.10.2026 bestanden alle 8 Integrationstests mit Python 3.14.8,
+Am 21.10.2026 bestanden alle 14 Integrationstests mit Python 3.14.8,
 Home Assistant 2026.10.2 und den Abhängigkeiten aus `requirements-test.txt`.
 Die Tests prüfen Konversation, Gesprächszuordnung, STT, TTS und Einrichtung
-gegen einen lokalen HTTP-Testserver.
+gegen einen lokalen HTTP-Testserver. Der Ereigniskanal ist zusätzlich auf
+unveränderte Daten, Zielauswahl, Größenlimits und fehlende automatische
+Wiederholung geprüft. Im separaten EVE-Serverprojekt bestanden 11 Assist-API-
+und Inbox-Tests, darunter 100 parallele Eingänge, Gruppierung und Quittierung.
 
 Download über HACS, Einrichtung und Sprachverarbeitung in der
 Home-Assistant-Zielinstanz wurden am 21.10.2026 erfolgreich bestätigt.
@@ -27,6 +30,18 @@ Automatische Prüfungen am 21.10.2026 ([Prüflauf](https://github.com/Dntouch/ev
 Der Workflow [Validate integration](https://github.com/Dntouch/eve-home-assistant/actions/workflows/validate.yaml)
 führt beide Prüfungen bei Pushes und Pull Requests aus. Unter **Actions →
 Validate integration → Run workflow** lassen sie sich auch manuell starten.
+
+## Änderungen in 0.2.0
+
+- Neue Aktion `eve_agent.send_event` für strukturierte Ereignisse.
+- Optionaler Ereigniskanal in Assist-API v1 mit dauerhafter Server-Inbox und
+  Duplikaterkennung über eine explizite Ereignis-ID.
+- Brainwatch zeigt eine rein lesende Ereignis-Inbox mit exakten Gruppenzählern.
+- Native Inbox-Werkzeuge erlauben EVE das Lesen und ausdrückliche Quittieren.
+- Keine Bedeutungszuordnung, Default-Prompts oder automatischen LLM-Aufrufe.
+- Der EVE-Server muss separat aktualisiert und neu gestartet werden.
+- Der Praxistest des Ereigniskanals mit HA und EVE steht noch aus. Die
+  bisherigen Praxistests für Sprache und Einrichtung beziehen sich auf 0.1.0.
 
 ## Vor einem versionierten Release
 
@@ -44,7 +59,7 @@ Validate integration → Run workflow** lassen sie sich auch manuell starten.
    Spracherkennung und Sprachausgabe einzeln testen, einschließlich der
    Gesprächszuordnung nach einem Neustart.
 4. Versionsnummer in `custom_components/eve_agent/manifest.json` festlegen.
-   Für die erste Version sind `0.1.0` und der Tag `v0.1.0` vorgesehen.
+   Für den Ereigniskanal sind `0.2.0` und der Tag `v0.2.0` vorgesehen.
 5. Den geprüften Commit taggen und ein GitHub-Release mit Änderungen,
    Voraussetzungen und bekannten Einschränkungen veröffentlichen.
 

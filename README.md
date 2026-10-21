@@ -79,6 +79,62 @@ angegebene URL erreichbar und in `visual.allowed_hosts` erlaubt sein.
 Technische Details zu Endpunkten und Datenformaten findest du in
 [docs/ASSIST-API.md](docs/ASSIST-API.md).
 
+## Ereignisse aus Automationen senden
+
+Ab Version **0.2.0** steht die Aktion **EVE: Ereignis senden** (`eve_agent.send_event`)
+zur Verfügung. Dafür muss auch der EVE-Server den Ereigniskanal unterstützen.
+Nach dem Server-Update EVE neu starten, die Integration über HACS aktualisieren
+und Home Assistant neu starten.
+
+Unter **Entwicklerwerkzeuge → Aktionen** wählst du **EVE: Ereignis senden** und
+die gewünschte EVE-Installation. Der YAML-Editor zeigt deren `config_entry_id`.
+Diese ID kannst du in einer Automation verwenden:
+
+```yaml
+alias: Bewegung an EVE melden
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.bewegung_flur
+    from: "off"
+    to: "on"
+actions:
+  - action: eve_agent.send_event
+    data:
+      config_entry_id: DEINE_EVE_CONFIG_ENTRY_ID
+      event_type: motion_detected
+      data:
+        entity_id: "{{ trigger.entity_id }}"
+        area: Flur
+    response_variable: empfang
+mode: single
+```
+
+Passe Sensor, Installations-ID und Daten an deine Automation an. `event_type`
+ist eine frei gewählte Kennung; die Integration wertet sie nicht aus.
+`data` enthält ein JSON-Objekt. Pro Ereignis sind höchstens 64 KiB erlaubt.
+
+EVE speichert das Ereignis und bestätigt mit `accepted`, `event_id` und
+`duplicate` den Empfang. Die optionale `response_variable` enthält diese Werte.
+Es wird kein Chat gestartet, kein Prompt erzeugt und kein LLM aufgerufen.
+Auch während eines laufenden Chats werden Ereignisse separat gespeichert;
+sie unterbrechen den Chat nicht und werden ihm nicht automatisch hinzugefügt.
+Unter **EVE Brainwatch → Ereignisse** siehst du offene Ereignisgruppen mit
+Anzahl, Daten und erstem/letztem Empfang. Exakt gleicher Typ und gleiche
+JSON-Daten bilden eine Gruppe; die einzelnen Eingänge bleiben gespeichert.
+Die Anzeige quittiert nichts.
+
+EVE kann die Inbox über ihre nativen Werkzeuge `assist_events.list` und
+`assist_events.acknowledge` lesen und Gruppen ausdrücklich quittieren. Neue
+Eingänge nach dem gelesenen Stand bleiben offen. Quittiert bedeutet nur
+„zur Kenntnis genommen“. Es gibt keinen automatischen Weckaufruf, keine
+Reaktionsregel und keine automatische Übernahme ins Memory.
+
+Ohne `event_id` bekommt jeder Aufruf eine neue ID. Mit derselben expliziten ID
+und denselben Daten wird ein Ereignis nur einmal gespeichert. Dieselbe ID mit
+anderen Daten führt zu einem Fehler. Nach Verbindungsfehlern wird nicht
+automatisch erneut gesendet; bei einem Timeout kann der Server das Ereignis
+bereits gespeichert haben.
+
 ## Hinweise zur Nutzung
 
 - Neue Assist-Chats erhalten eigene EVE-Gespräche. Diese Zuordnung bleibt nach

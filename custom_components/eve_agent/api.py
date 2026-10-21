@@ -1,5 +1,6 @@
 """HTTP transport only. EVE owns all language processing and synthesis."""
 import asyncio
+import json
 from contextlib import asynccontextmanager
 from urllib.parse import urlsplit
 import weakref
@@ -90,6 +91,21 @@ class EveClient:
 
     async def synthesize(self, text, language):
         return await self.request("POST", "tts", binary=True, json={"text": text, "language": language})
+
+    async def send_event(self, event_type, data, event_id):
+        payload = {"event_id": event_id, "event_type": event_type, "data": data}
+        try:
+            body = json.dumps(payload, ensure_ascii=False, allow_nan=False).encode("utf-8")
+        except (TypeError, ValueError, UnicodeError) as exc:
+            raise EveError("Ereignisdaten müssen gültige JSON-Daten sein") from exc
+        if len(body) > 65536:
+            raise EveError("Ereignis überschreitet das Größenlimit von 64 KiB")
+        result = await self.request("POST", "events", data=body,
+                                    headers={"Content-Type": "application/json"})
+        if (result.get("accepted") is not True or result.get("event_id") != event_id
+                or not isinstance(result.get("duplicate"), bool)):
+            raise EveError("EVE lieferte keine gültige Ereignisbestätigung")
+        return result
 
 
 class EveRuntime:

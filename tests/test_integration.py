@@ -32,6 +32,8 @@ class HAIntegrationTest(unittest.IsolatedAsyncioTestCase):
         self.hass = HomeAssistant(self.temp.name)
         self.calls = []
         self.created = 0
+        self.events = []
+        self.event_status = 202
         output = io.BytesIO()
         with wave.open(output, "wb") as audio:
             audio.setnchannels(1)
@@ -45,10 +47,15 @@ class HAIntegrationTest(unittest.IsolatedAsyncioTestCase):
                 return web.Response(status=401)
             operation = request.match_info["operation"]
             if operation == "info":
-                return web.json_response({"api_version": 1, "conversation": True,
+                return web.json_response({"api_version": 1, "conversation": True, "events": True,
                     "stt": {"languages": ["de"], "sample_rate": 16000,
                             "sample_bytes": 2, "channels": 1},
                     "tts": {"languages": ["de"], "format": "wav"}})
+            if operation == "events":
+                payload = await request.json()
+                self.events.append(payload)
+                return web.json_response({"accepted": True, "event_id": payload["event_id"],
+                                          "duplicate": False}, status=self.event_status)
             if operation == "conversations":
                 self.created += 1
                 return web.json_response({"conversation_id": f"eve-{self.created}"})
@@ -163,3 +170,64 @@ class HAIntegrationTest(unittest.IsolatedAsyncioTestCase):
         with self.assertRaises(EveError):
             await self.runtime.converse("Do not send", "new-chat", [])
         self.assertEqual(self.calls, [])
+
+    async def test_event_action_preserves_structured_data_without_conversation(self):
+        from custom_components.eve_agent import async_setup
+        await async_setup(self.hass, {})
+        payload = {"entity_id": "binary_sensor.flur", "area": "  Flur\n", "values": [False, 2, None]}
+        with patch("custom_components.eve_agent.services.service.async_get_config_entry", return_value=self.entry) as resolve:
+            result = await self.hass.services.async_call("eve_agent", "send_event", {
+                "config_entry_id": "test", "event_type": "motion_detected", "data": payload,
+                "event_id": "motion-1"}, blocking=True, return_response=True)
+        resolve.assert_called_once_with(self.hass, "eve_agent", "test")
+        self.assertEqual(result, {"accepted": True, "event_id": "motion-1", "duplicate": False})
+        self.assertEqual(self.events, [{"event_id": "motion-1", "event_type": "motion_detected", "data": payload}])
+        self.assertEqual((self.created, self.calls), (0, []))
+
+    async def test_event_failure_is_not_retried(self):
+        self.event_status = 503
+        with self.assertRaises(EveError):
+            await self.client.send_event("motion", {}, "id")
+        self.assertEqual(len(self.events), 1)
+        self.assertEqual((self.created, self.calls), (0, []))
+
+    async def test_event_rejects_non_json_and_oversized_data_before_sending(self):
+        for data in ({"value": float("nan")}, {"value": object()}, {"value": "x" * 65536}):
+            with self.assertRaises(EveError):
+                await self.client.send_event("motion", data, "id")
+        self.assertEqual(self.events, [])
+
+    async def test_event_action_rejects_old_backend_without_sending(self):
+        from custom_components.eve_agent import async_setup
+        from homeassistant.exceptions import ServiceValidationError
+        await async_setup(self.hass, {})
+        self.runtime.info = {**self.info, "events": False}
+        with patch("custom_components.eve_agent.services.service.async_get_config_entry", return_value=self.entry):
+            with self.assertRaises(ServiceValidationError):
+                await self.hass.services.async_call("eve_agent", "send_event", {
+                    "config_entry_id": "test", "event_type": "motion"}, blocking=True)
+        self.assertEqual(self.events, [])
+
+    async def test_event_action_requires_explicit_loaded_target(self):
+        import voluptuous as vol
+        from custom_components.eve_agent import async_setup
+        from homeassistant.exceptions import ServiceValidationError
+        await async_setup(self.hass, {})
+        with self.assertRaises(vol.Invalid):
+            await self.hass.services.async_call("eve_agent", "send_event", {
+                "event_type": "motion"}, blocking=True)
+        self.hass.config_entries = SimpleNamespace(async_get_entry=lambda entry_id: None)
+        with self.assertRaises(ServiceValidationError):
+            await self.hass.services.async_call("eve_agent", "send_event", {
+                "config_entry_id": "missing", "event_type": "motion"}, blocking=True)
+        self.assertEqual(self.events, [])
+
+    async def test_event_action_generates_id_without_response_variable(self):
+        import uuid
+        from custom_components.eve_agent import async_setup
+        await async_setup(self.hass, {})
+        with patch("custom_components.eve_agent.services.service.async_get_config_entry", return_value=self.entry):
+            await self.hass.services.async_call("eve_agent", "send_event", {
+                "config_entry_id": "test", "event_type": "motion"}, blocking=True)
+        uuid.UUID(self.events[0]["event_id"])
+        self.assertEqual(self.events[0]["data"], {})

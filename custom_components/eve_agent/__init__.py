@@ -4,11 +4,20 @@ from homeassistant.const import Platform
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.storage import Store
+from homeassistant.helpers import config_validation as cv
 
 from .api import EveClient, EveRuntime, EveAuthError, EveError
 from .const import DOMAIN, CONF_URL, CONF_TOKEN, CONF_TIMEOUT, CONF_VERIFY_SSL
 
 PLATFORMS = [Platform.CONVERSATION, Platform.STT, Platform.TTS]
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass, config):
+    from .services import async_register_services
+
+    async_register_services(hass)
+    return True
 
 
 async def async_setup_entry(hass, entry):

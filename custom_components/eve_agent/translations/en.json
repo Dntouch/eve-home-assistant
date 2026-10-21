@@ -48,5 +48,29 @@
       "reconfigure_successful": "EVE configuration updated.",
       "reauth_successful": "Authentication updated."
     }
+  },
+  "services": {
+    "send_event": {
+      "name": "Send event",
+      "description": "Send a structured event to EVE without starting a conversation or producing speech.",
+      "fields": {
+        "config_entry_id": {
+          "name": "EVE installation",
+          "description": "The EVE installation receiving the event."
+        },
+        "event_type": {
+          "name": "Event type",
+          "description": "An event type such as motion_detected."
+        },
+        "data": {
+          "name": "Event data",
+          "description": "JSON data sent without modification."
+        },
+        "event_id": {
+          "name": "Event ID",
+          "description": "Optional: reuse the same ID and data to prevent duplicate storage. Otherwise a new ID is generated."
+        }
+      }
+    }
   }
 }
