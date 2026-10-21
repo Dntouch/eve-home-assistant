@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect EVE",
+        "description": "EVE provides conversation, speech recognition and speech synthesis. mapped creates one EVE conversation per HA chat; fixed uses an existing ID.",
+        "data": {
+          "url": "EVE base URL",
+          "token": "Assist token",
+          "timeout": "Timeout (seconds)",
+          "verify_ssl": "Verify TLS certificate",
+          "conversation_strategy": "Conversation mapping",
+          "fixed_conversation_id": "Fixed EVE conversation ID (fixed only)"
+        }
+      },
+      "reconfigure": {
+        "title": "Connect EVE",
+        "description": "EVE provides conversation, speech recognition and speech synthesis. mapped creates one EVE conversation per HA chat; fixed uses an existing ID.",
+        "data": {
+          "url": "EVE base URL",
+          "token": "Assist token",
+          "timeout": "Timeout (seconds)",
+          "verify_ssl": "Verify TLS certificate",
+          "conversation_strategy": "Conversation mapping",
+          "fixed_conversation_id": "Fixed EVE conversation ID (fixed only)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Connect EVE",
+        "description": "EVE provides conversation, speech recognition and speech synthesis. mapped creates one EVE conversation per HA chat; fixed uses an existing ID.",
+        "data": {
+          "url": "EVE base URL",
+          "token": "Assist token",
+          "timeout": "Timeout (seconds)",
+          "verify_ssl": "Verify TLS certificate",
+          "conversation_strategy": "Conversation mapping",
+          "fixed_conversation_id": "Fixed EVE conversation ID (fixed only)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Access denied. Check the Assist token and allowed host.",
+      "cannot_connect": "Cannot connect to the EVE Assist API or API incompatible.",
+      "invalid_config": "Check URL, token and conversation mapping."
+    },
+    "abort": {
+      "already_configured": "This EVE installation is already configured.",
+      "reconfigure_successful": "EVE configuration updated.",
+      "reauth_successful": "Authentication updated."
+    }
+  }
+}

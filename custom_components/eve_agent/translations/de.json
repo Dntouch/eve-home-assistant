@@ -1,0 +1,52 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "EVE mit Home Assistant verbinden",
+        "description": "EVE stellt Konversation, Spracherkennung und Sprachausgabe bereit. mapped legt pro HA-Unterhaltung ein eigenes EVE-Gespräch an; fixed nutzt eine bestehende ID.",
+        "data": {
+          "url": "EVE-Basis-URL",
+          "token": "Assist-Token",
+          "timeout": "Timeout (Sekunden)",
+          "verify_ssl": "TLS-Zertifikat prüfen",
+          "conversation_strategy": "Gesprächszuordnung",
+          "fixed_conversation_id": "Feste EVE-Gesprächs-ID (nur bei fixed)"
+        }
+      },
+      "reconfigure": {
+        "title": "EVE mit Home Assistant verbinden",
+        "description": "EVE stellt Konversation, Spracherkennung und Sprachausgabe bereit. mapped legt pro HA-Unterhaltung ein eigenes EVE-Gespräch an; fixed nutzt eine bestehende ID.",
+        "data": {
+          "url": "EVE-Basis-URL",
+          "token": "Assist-Token",
+          "timeout": "Timeout (Sekunden)",
+          "verify_ssl": "TLS-Zertifikat prüfen",
+          "conversation_strategy": "Gesprächszuordnung",
+          "fixed_conversation_id": "Feste EVE-Gesprächs-ID (nur bei fixed)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "EVE mit Home Assistant verbinden",
+        "description": "EVE stellt Konversation, Spracherkennung und Sprachausgabe bereit. mapped legt pro HA-Unterhaltung ein eigenes EVE-Gespräch an; fixed nutzt eine bestehende ID.",
+        "data": {
+          "url": "EVE-Basis-URL",
+          "token": "Assist-Token",
+          "timeout": "Timeout (Sekunden)",
+          "verify_ssl": "TLS-Zertifikat prüfen",
+          "conversation_strategy": "Gesprächszuordnung",
+          "fixed_conversation_id": "Feste EVE-Gesprächs-ID (nur bei fixed)"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Zugriff verweigert. Assist-Token und erlaubten Host prüfen.",
+      "cannot_connect": "EVE-Assist-API nicht erreichbar oder inkompatibel.",
+      "invalid_config": "URL, Token und Gesprächszuordnung prüfen."
+    },
+    "abort": {
+      "already_configured": "Diese EVE-Installation ist bereits eingerichtet.",
+      "reconfigure_successful": "EVE-Konfiguration aktualisiert.",
+      "reauth_successful": "Authentifizierung aktualisiert."
+    }
+  }
+}
