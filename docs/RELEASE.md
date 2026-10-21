@@ -18,7 +18,16 @@ gegen einen lokalen HTTP-Testserver.
 
 Download über HACS, Einrichtung und Sprachverarbeitung in der
 Home-Assistant-Zielinstanz wurden am 21.10.2026 erfolgreich bestätigt.
-Die offiziellen HACS- und Hassfest-Prüfungen stehen noch aus.
+Automatische Prüfungen am 21.10.2026 ([Prüflauf](https://github.com/Dntouch/eve-home-assistant/actions/runs/39665605233)):
+
+- **Hassfest: bestanden.** Die Reihenfolge der Manifest-Felder wurde korrigiert.
+- **HACS Action: 8 von 10 Prüfungen bestanden.** Es fehlen noch Beschreibung
+  und Topics in den GitHub-Repository-Einstellungen unter „About“.
+  Zusätzlich wird eine fehlende Kategorie im Integrationsmanifest als Warnung gemeldet.
+
+Der Workflow [Validate integration](https://github.com/Dntouch/eve-home-assistant/actions/workflows/validate.yaml)
+führt beide Prüfungen bei Pushes und Pull Requests aus. Unter **Actions →
+Validate integration → Run workflow** lassen sie sich auch manuell starten.
 
 ## Vor einem versionierten Release
 
