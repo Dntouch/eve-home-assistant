@@ -1,36 +1,47 @@
-# Veröffentlichung vorbereiten
+# Releases
 
-Status: Quellcode auf `main` im öffentlichen Repository
-https://github.com/Dntouch/eve-home-assistant veröffentlicht.
-Es handelt sich um ein **neues**, eigenständiges Repository;
-das bestehende KI-Biotop-Repository wird nicht verwendet oder verändert.
-GitHub-Eigentümer und MIT-Lizenz wurden am 21.10.2026 festgelegt.
+## Aktueller Stand
 
-1. Das neue öffentliche GitHub-Repository `Dntouch/eve-home-assistant` ist angelegt.
-   Beschreibung und Topics bei Bedarf in GitHub ergänzen. Beschreibung:
-   „Home Assistant Assist integration for EVE: Conversation, STT and TTS.“
-   Topics: `home-assistant`, `hacs`, `eve`, `conversation`, `stt`, `tts`.
-2. Manifest-URLs und Codeowner sind auf `Dntouch/eve-home-assistant` bzw.
-   `@Dntouch` gesetzt. Die MIT-Lizenz liegt unter LICENSE.
-3. Initialer lokaler Commit und Veröffentlichung über den GitHub-Connector
-   sind erfolgt. Die lokale Git-Autoridentität verwendet `Dntouch` und die
-   GitHub-Noreply-Adresse. Remote: `https://github.com/Dntouch/eve-home-assistant.git`.
-4. Tests aus README ausführen. Am 21.10.2026 bestanden alle 8 Integrationstests
-   mit Python 3.14.8 und den Versionen aus requirements-test.txt.
-   HACS-/HA-Metadaten mit den offiziellen Validatoren prüfen; diese lokale
-   Vorbereitung behauptet keine bestandene HACS-Validierung. Die Integration
-   liefert das EVE-Icon unter `custom_components/eve_agent/brand/` mit.
-   Home Assistant unterstützt lokale Brand-Bilder seit 2026.3; ein separater
-   Eintrag im zentralen Brands-Repository ist dafür nicht erforderlich.
-   Die Anzeige in HACS hängt zusätzlich von dessen Version und Bild-Cache ab.
-5. Version im Manifest prüfen und passenden Git-Tag v0.1.0 veröffentlichen.
-6. Öffentliches Repository in HACS als benutzerdefiniertes Repository vom Typ
-   Integration hinzufügen, herunterladen, HA neu starten und EVE einrichten.
+- Repository: [Dntouch/eve-home-assistant](https://github.com/Dntouch/eve-home-assistant)
+- Entwicklung auf `main`, Manifest-Version: `0.1.0`.
+- Lizenz: [MIT](../LICENSE).
+- Installation über HACS als benutzerdefiniertes Repository vom Typ **Integration**.
+  Die Anleitung steht in der [README](../README.md#installation-über-hacs-empfohlen).
+- Das EVE-Icon wird unter `custom_components/eve_agent/brand/` mitgeliefert.
 
-Keine EVE-Konfiguration, Tokens, Chatverläufe oder Modelle veröffentlichen.
-Die bestehende Kopie in EVE-Agent bleibt während der Übergabe erhalten. Künftige
-Integration-Änderungen gehören in dieses Repository; Backend-Änderungen in EVE-Agent.
+## Prüfstand
 
-Referenzen:
-- https://www.hacs.dev/docs/publish/integration/
-- https://www.hacs.dev/docs/publish/start/
+Am 21.10.2026 bestanden alle 8 Integrationstests mit Python 3.14.8,
+Home Assistant 2026.10.2 und den Abhängigkeiten aus `requirements-test.txt`.
+Die Tests prüfen Konversation, Gesprächszuordnung, STT, TTS und Einrichtung
+gegen einen lokalen HTTP-Testserver.
+
+Der Download über HACS wurde bestätigt. Einrichtung und Sprachverarbeitung
+in der Home-Assistant-Zielinstanz sind noch zu prüfen. Die offiziellen
+HACS- und Hassfest-Prüfungen stehen ebenfalls noch aus.
+
+## Vor einem versionierten Release
+
+1. Integrationstests mit Python 3.14 ausführen:
+
+   ```sh
+   python3.14 -m venv .venv
+   .venv/bin/python -m pip install -r requirements-test.txt
+   .venv/bin/python -m unittest discover -s tests -v
+   ```
+
+2. Metadaten mit [HACS Action](https://www.hacs.dev/docs/publish/action/)
+   und Hassfest prüfen und gemeldete Fehler beheben.
+3. Installation bzw. Update über HACS prüfen. In Home Assistant Konversation,
+   Spracherkennung und Sprachausgabe einzeln testen, einschließlich der
+   Gesprächszuordnung nach einem Neustart.
+4. Versionsnummer in `custom_components/eve_agent/manifest.json` festlegen.
+   Für die erste Version sind `0.1.0` und der Tag `v0.1.0` vorgesehen.
+5. Den geprüften Commit taggen und ein GitHub-Release mit Änderungen,
+   Voraussetzungen und bekannten Einschränkungen veröffentlichen.
+
+## Umfang des Release-Pakets
+
+Die Integration liegt vollständig unter `custom_components/eve_agent/`.
+EVE-Server, Konfiguration, Zugangsdaten, Chatverläufe und Modelle gehören
+nicht in dieses Repository oder in Release-Archive.
