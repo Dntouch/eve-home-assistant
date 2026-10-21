@@ -9,9 +9,8 @@ Die Integration stellt drei unabhängige Anbieter für Assist bereit:
 | Sprache-zu-Text | EVE STT |
 | Text-zu-Sprache | EVE TTS |
 
-Die Integration ist eine Transportbrücke. Antworten, Gedächtnis, Gerätezugriffe,
-Spracherkennung und Stimme kommen von der laufenden EVE-Installation. Keine
-Prompts, kein weiteres LLM, keine Modelle auf dem HA-Rechner.
+Die Verarbeitung erfolgt auf deinem EVE-Server. Home Assistant übernimmt die
+Aufnahme und Wiedergabe am jeweiligen Gerät.
 
 ## Voraussetzungen
 
@@ -80,46 +79,33 @@ angegebene URL erreichbar und in `visual.allowed_hosts` erlaubt sein.
 Technische Details zu Endpunkten und Datenformaten findest du in
 [docs/ASSIST-API.md](docs/ASSIST-API.md).
 
-## Verhalten und Grenzen dieser Version
+## Hinweise zur Nutzung
 
-- Die HA→EVE-Gesprächszuordnung liegt dauerhaft in HA-Storage. Neue HA-Chats
-  bekommen eigene EVE-Gespräche. Ein HA-Neustart verwirft die Zuordnung nicht.
-- Anfragen derselben Unterhaltung werden sequenziell verarbeitet. EVE kann bei
-  gleichzeitig laufenden anderen Unterhaltungen mit einem sichtbaren Fehler
-  antworten. Es gibt keinen automatischen Wiederholungsversuch für Gesprächsturns.
-- STT erwartet die von Assist gelieferten 16-kHz-/16-Bit-/Mono-PCM-Daten. Sie
-  werden zunächst gesammelt und von EVE mit einem WAV-Header versehen. Diese
-  Version liefert keine partiellen Transkripte oder Streaming-TTS-Ausgabe.
-- TTS verwendet EVEs konfigurierte Stimme und liefert WAV an Home Assistant;
-  HA übernimmt die Ausgabe am Zielgerät und notwendige Formatkonvertierung.
-- Conversation selbst erzeugt kein Audio. Dadurch wird die Antwort nicht
-  zweimal vertont und nicht zusätzlich am EVE-Rechner abgespielt.
-- Keine Ableitung von Fragen, Befehlen oder Antworten im Brückencode.
-- Bilder werden nur transportiert, wenn der aufrufende Client tatsächlich ein
-  `images`-Array bereitstellt. Normale HA-Sprachaufrufe enthalten keines;
-  HA-Dateianhänge werden nicht automatisch gelesen oder konvertiert.
-- Keine YAML-Konfiguration in dieser Version; Einrichtung über die HA-UI.
+- Neue Assist-Chats erhalten eigene EVE-Gespräche. Diese Zuordnung bleibt nach
+  einem Neustart von Home Assistant erhalten.
+- Die Sprachausgabe verwendet die in EVE eingestellte Stimme.
+- Spracherkennung und Sprachausgabe verarbeiten vollständige Aufnahmen bzw.
+  Antworten. Eine fortlaufende Ausgabe während der Verarbeitung gibt es derzeit nicht.
+- Ist EVE ausgelastet oder nicht erreichbar, zeigt Home Assistant einen Fehler an.
+  Gesprächsanfragen werden nicht automatisch wiederholt.
+- Bilder und Dateianhänge aus Home Assistant werden nicht automatisch an EVE übertragen.
 
-## Eigenständiges Entwicklungsprojekt
+## Entwicklung
 
-Dieses Repository enthält ausschließlich die Home-Assistant-Integration. Der
-EVE-Server und seine Modelle werden im separaten EVE-Agent-Projekt gepflegt.
-Der gemeinsame Vertrag ist in [docs/ASSIST-API.md](docs/ASSIST-API.md) beschrieben.
-
-Die Integration steht unter der [MIT-Lizenz](LICENSE). Hinweise zur
-Veröffentlichung und zu noch offenen Validierungen stehen in
+Die API ist in [docs/ASSIST-API.md](docs/ASSIST-API.md) beschrieben.
+Hinweise zu Releases und noch offenen Prüfungen stehen in
 [docs/RELEASE.md](docs/RELEASE.md).
 
-### Tests
-
-Python 3.14 und eine virtuelle Umgebung verwenden:
+Für die Tests Python 3.14 verwenden:
 
 ```sh
-python3 -m venv .venv
+python3.14 -m venv .venv
 .venv/bin/python -m pip install -r requirements-test.txt
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-Die Tests verwenden echte HA-Entitäten und HA-Storage sowie einen lokalen
-HTTP-Testserver für den EVE-API-Vertrag. Sie benötigen weder EVE-Quellcode
-noch Sprachmodelle, Zugangsdaten oder eine laufende Home-Assistant-Installation.
+Die Tests benötigen keinen laufenden EVE-Server.
+
+## Lizenz
+
+[MIT](LICENSE)
