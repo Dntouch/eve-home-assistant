@@ -18,9 +18,11 @@ GitHub-Eigentümer und MIT-Lizenz wurden am 21.10.2026 festgelegt.
 4. Tests aus README ausführen. Am 21.10.2026 bestanden alle 8 Integrationstests
    mit Python 3.14.8 und den Versionen aus requirements-test.txt.
    HACS-/HA-Metadaten mit den offiziellen Validatoren prüfen; diese lokale
-   Vorbereitung behauptet keine bestandene HACS-Validierung. Für vollständige
-   HACS-Konformität auch den geforderten Eintrag in Home Assistant Brands
-   vorbereiten und dessen Status prüfen.
+   Vorbereitung behauptet keine bestandene HACS-Validierung. Die Integration
+   liefert das EVE-Icon unter `custom_components/eve_agent/brand/` mit.
+   Home Assistant unterstützt lokale Brand-Bilder seit 2026.3; ein separater
+   Eintrag im zentralen Brands-Repository ist dafür nicht erforderlich.
+   Die Anzeige in HACS hängt zusätzlich von dessen Version und Bild-Cache ab.
 5. Version im Manifest prüfen und passenden Git-Tag v0.1.0 veröffentlichen.
 6. Öffentliches Repository in HACS als benutzerdefiniertes Repository vom Typ
    Integration hinzufügen, herunterladen, HA neu starten und EVE einrichten.
