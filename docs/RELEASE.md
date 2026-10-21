@@ -16,14 +16,16 @@ Home Assistant 2026.10.2 und den Abhängigkeiten aus `requirements-test.txt`.
 Die Tests prüfen Konversation, Gesprächszuordnung, STT, TTS und Einrichtung
 gegen einen lokalen HTTP-Testserver. Der Ereigniskanal ist zusätzlich auf
 unveränderte Daten, Zielauswahl, Größenlimits und fehlende automatische
-Wiederholung geprüft. Im separaten EVE-Serverprojekt bestanden 11 Assist-API-
-und Inbox-Tests, darunter 100 parallele Eingänge, Gruppierung und Quittierung.
+Wiederholung geprüft. Im separaten EVE-Serverprojekt bestanden 12 Assist-API-
+und Inbox-Tests, darunter 100 parallele Eingänge, Empfang während eines
+laufenden Chats, Gruppierung und Quittierung. Zusätzlich bestanden 22
+Native-Runtime- und 42 VisualServer-Tests.
 
 Download über HACS, Einrichtung und Sprachverarbeitung in der
 Home-Assistant-Zielinstanz wurden am 21.10.2026 erfolgreich bestätigt.
-Automatische Prüfungen am 21.10.2026 ([Prüflauf](https://github.com/Dntouch/eve-home-assistant/actions/runs/39665770590)):
+Automatische Prüfungen am 21.10.2026 ([Prüflauf](https://github.com/Dntouch/eve-home-assistant/actions/runs/39669151855)):
 
-- **Hassfest: bestanden.** Die Reihenfolge der Manifest-Felder wurde korrigiert.
+- **Hassfest: bestanden** für den Ereigniskanal in Version 0.2.0.
 - **HACS Action: alle 10 Prüfungen bestanden.** Beschreibung und Topics sind ergänzt.
   Die fehlende Kategorie im Integrationsmanifest wird weiterhin als Warnung gemeldet.
 
