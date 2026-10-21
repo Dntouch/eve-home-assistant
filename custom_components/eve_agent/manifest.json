@@ -1,12 +1,18 @@
 {
   "domain": "eve_agent",
   "name": "EVE",
-  "version": "0.1.0",
+  "codeowners": [
+    "@Dntouch"
+  ],
   "config_flow": true,
+  "dependencies": [
+    "conversation",
+    "stt",
+    "tts"
+  ],
   "documentation": "https://github.com/Dntouch/eve-home-assistant",
-  "issue_tracker": "https://github.com/Dntouch/eve-home-assistant/issues",
-  "codeowners": ["@Dntouch"],
-  "dependencies": ["conversation", "stt", "tts"],
   "iot_class": "local_push",
-  "requirements": []
+  "issue_tracker": "https://github.com/Dntouch/eve-home-assistant/issues",
+  "requirements": [],
+  "version": "0.1.0"
 }
