@@ -110,30 +110,15 @@ mode: single
 ```
 
 Passe Sensor, Installations-ID und Daten an deine Automation an. `event_type`
-ist eine frei gewählte Kennung; die Integration wertet sie nicht aus.
-`data` enthält ein JSON-Objekt. Pro Ereignis sind höchstens 64 KiB erlaubt.
+ist frei wählbar; `data` enthält die Ereignisdaten als JSON-Objekt.
 
-EVE speichert das Ereignis und bestätigt mit `accepted`, `event_id` und
-`duplicate` den Empfang. Die optionale `response_variable` enthält diese Werte.
-Es wird kein Chat gestartet, kein Prompt erzeugt und kein LLM aufgerufen.
-Auch während eines laufenden Chats werden Ereignisse separat gespeichert;
-sie unterbrechen den Chat nicht und werden ihm nicht automatisch hinzugefügt.
-Unter **EVE Brainwatch → Ereignisse** siehst du offene Ereignisgruppen mit
-Anzahl, Daten und erstem/letztem Empfang. Exakt gleicher Typ und gleiche
-JSON-Daten bilden eine Gruppe; die einzelnen Eingänge bleiben gespeichert.
-Die Anzeige quittiert nichts.
+EVE speichert die Ereignisse getrennt vom Chat. Unter **Brainwatch → Ereignisse**
+siehst du die Daten und die Anzahl gleicher Eingänge. EVE kann die Inbox über
+native Werkzeuge lesen und quittieren. Neue Ereignisse wecken EVE nicht
+automatisch auf und werden keinem laufenden Chat hinzugefügt.
 
-EVE kann die Inbox über ihre nativen Werkzeuge `assist_events.list` und
-`assist_events.acknowledge` lesen und Gruppen ausdrücklich quittieren. Neue
-Eingänge nach dem gelesenen Stand bleiben offen. Quittiert bedeutet nur
-„zur Kenntnis genommen“. Es gibt keinen automatischen Weckaufruf, keine
-Reaktionsregel und keine automatische Übernahme ins Memory.
-
-Ohne `event_id` bekommt jeder Aufruf eine neue ID. Mit derselben expliziten ID
-und denselben Daten wird ein Ereignis nur einmal gespeichert. Dieselbe ID mit
-anderen Daten führt zu einem Fehler. Nach Verbindungsfehlern wird nicht
-automatisch erneut gesendet; bei einem Timeout kann der Server das Ereignis
-bereits gespeichert haben.
+Felder, Empfangsbestätigung, Größenlimits und Fehlerfälle beschreibt der
+[API-Vertrag](docs/ASSIST-API.md#ereigniskanal-optionale-erweiterung-von-api-v1).
 
 ## Hinweise zur Nutzung
 

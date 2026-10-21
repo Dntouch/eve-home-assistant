@@ -11,23 +11,13 @@
 
 ## Prüfstand
 
-Am 21.10.2026 bestanden alle 14 Integrationstests mit Python 3.14.8,
-Home Assistant 2026.10.2 und den Abhängigkeiten aus `requirements-test.txt`.
-Die Tests prüfen Konversation, Gesprächszuordnung, STT, TTS und Einrichtung
-gegen einen lokalen HTTP-Testserver. Der Ereigniskanal ist zusätzlich auf
-unveränderte Daten, Zielauswahl, Größenlimits und fehlende automatische
-Wiederholung geprüft. Im separaten EVE-Serverprojekt bestanden 12 Assist-API-
-und Inbox-Tests, darunter 100 parallele Eingänge, Empfang während eines
-laufenden Chats, Gruppierung und Quittierung. Zusätzlich bestanden 22
-Native-Runtime- und 42 VisualServer-Tests.
+Stand 21.10.2026: Integrationstests mit Python 3.14 und Home Assistant
+2026.10.2 sowie die Server-Tests für Ereignisempfang und Inbox sind bestanden.
+[HACS und Hassfest bestehen für Version 0.2.0](https://github.com/Dntouch/eve-home-assistant/actions/runs/39669151855).
+HACS meldet die fehlende Integrationskategorie als Warnung.
 
-Download über HACS, Einrichtung und Sprachverarbeitung in der
-Home-Assistant-Zielinstanz wurden am 21.10.2026 erfolgreich bestätigt.
-Automatische Prüfungen am 21.10.2026 ([Prüflauf](https://github.com/Dntouch/eve-home-assistant/actions/runs/39669151855)):
-
-- **Hassfest: bestanden** für den Ereigniskanal in Version 0.2.0.
-- **HACS Action: alle 10 Prüfungen bestanden.** Beschreibung und Topics sind ergänzt.
-  Die fehlende Kategorie im Integrationsmanifest wird weiterhin als Warnung gemeldet.
+Installation und Sprachverarbeitung mit Version 0.1.0 wurden in Home Assistant
+bestätigt. Der Praxistest des Ereigniskanals in Version 0.2.0 steht noch aus.
 
 Der Workflow [Validate integration](https://github.com/Dntouch/eve-home-assistant/actions/workflows/validate.yaml)
 führt beide Prüfungen bei Pushes und Pull Requests aus. Unter **Actions →
@@ -42,8 +32,6 @@ Validate integration → Run workflow** lassen sie sich auch manuell starten.
 - Native Inbox-Werkzeuge erlauben EVE das Lesen und ausdrückliche Quittieren.
 - Keine Bedeutungszuordnung, Default-Prompts oder automatischen LLM-Aufrufe.
 - Der EVE-Server muss separat aktualisiert und neu gestartet werden.
-- Der Praxistest des Ereigniskanals mit HA und EVE steht noch aus. Die
-  bisherigen Praxistests für Sprache und Einrichtung beziehen sich auf 0.1.0.
 
 ## Vor einem versionierten Release
 
