@@ -16,9 +16,9 @@ Home Assistant 2026.10.2 und den Abhängigkeiten aus `requirements-test.txt`.
 Die Tests prüfen Konversation, Gesprächszuordnung, STT, TTS und Einrichtung
 gegen einen lokalen HTTP-Testserver.
 
-Der Download über HACS wurde bestätigt. Einrichtung und Sprachverarbeitung
-in der Home-Assistant-Zielinstanz sind noch zu prüfen. Die offiziellen
-HACS- und Hassfest-Prüfungen stehen ebenfalls noch aus.
+Download über HACS, Einrichtung und Sprachverarbeitung in der
+Home-Assistant-Zielinstanz wurden am 21.10.2026 erfolgreich bestätigt.
+Die offiziellen HACS- und Hassfest-Prüfungen stehen noch aus.
 
 ## Vor einem versionierten Release
 
