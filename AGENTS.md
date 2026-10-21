@@ -10,4 +10,4 @@ configuration, memories, credentials, models, or runtime data into this reposito
 - Keep runtime code under custom_components/eve_agent for HACS.
 - Maintain docs/ASSIST-API.md when changing the API contract; coordinate server changes.
 - Test with Python 3.14 and requirements-test.txt, then run unittest discover -s tests -v.
-- GitHub metadata and license are pending; see docs/RELEASE.md before publishing.
+- GitHub owner is Dntouch; license is MIT. See docs/RELEASE.md before a release.

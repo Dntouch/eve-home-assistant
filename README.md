@@ -99,10 +99,10 @@ Dieses Repository enthält ausschließlich die Home-Assistant-Integration. Der
 EVE-Server und seine Modelle werden im separaten EVE-Agent-Projekt gepflegt.
 Der gemeinsame Vertrag ist in [docs/ASSIST-API.md](docs/ASSIST-API.md) beschrieben.
 
-Die Quellstruktur und `hacs.json` sind für HACS vorbereitet. Als Repository ist
+Die Quellstruktur und `hacs.json` sind für HACS vorbereitet. Der Quellcode ist auf
 [Dntouch/eve-home-assistant](https://github.com/Dntouch/eve-home-assistant)
-vorgesehen. Die Integration steht unter der [MIT-Lizenz](LICENSE).
-Die Veröffentlichung und die offiziellen HACS-/HA-Validierungen stehen noch aus;
+veröffentlicht. Die Integration steht unter der [MIT-Lizenz](LICENSE).
+Ein versioniertes Release und die offiziellen HACS-/HA-Validierungen stehen noch aus;
 siehe [docs/RELEASE.md](docs/RELEASE.md).
 
 ### Tests
