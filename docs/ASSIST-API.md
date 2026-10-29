@@ -26,6 +26,24 @@ Die optionale fixed-Strategie verwendet eine bereits vorhandene EVE-ID.
 Timeouts und ungültige Antworten als sichtbare Fehler. Kein automatischer
 Wiederholungsversuch eines Gesprächs. Kein Streaming in API v1.
 
+## Home-Assistant-Aktion `tts.eve_say`
+
+Die Integration registriert zusätzlich die Aktion `tts.eve_say`. Ihr Aufruf
+verlangt `entity_id` (eine Mediaplayer-ID oder eine Liste davon) und `message`.
+Optional sind `tts_entity_id`, `language`, `cache` (Standard `false`) und
+`options`. Ohne `tts_entity_id` muss genau eine EVE-TTS-Entität geladen sein;
+bei mehreren ist eine ausdrückliche Auswahl erforderlich. Die gewählte Entität
+muss geladen, verfügbar und eine EVE-TTS-Entität sein. Es gibt keinen Fallback
+auf andere Sprachanbieter.
+
+Die Aktion leitet mit dem ursprünglichen Aufrufkontext an `tts.speak` weiter:
+Die EVE-TTS-Entität wird dessen Ziel, die Mediaplayer werden als
+`media_player_entity_id` übergeben. Home Assistant verwaltet Wiedergabe, Cache
+und optionale Formatkonvertierung. Bei einer Synthese wird ausschließlich der
+bestehende Endpunkt `POST /tts` mit unverändertem Text verwendet. Conversation
+und STT werden nicht aufgerufen; Fehler werden ohne eigenen Wiederholungsversuch
+weitergegeben. Der Serververtrag bleibt unverändert.
+
 ## Ereigniskanal (optionale Erweiterung von API v1)
 
 Ein unterstützender Server meldet zusätzlich `"events": true` in `/info`.

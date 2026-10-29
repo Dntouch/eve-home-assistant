@@ -79,6 +79,38 @@ angegebene URL erreichbar und in `visual.allowed_hosts` erlaubt sein.
 Technische Details zu Endpunkten und Datenformaten findest du in
 [docs/ASSIST-API.md](docs/ASSIST-API.md).
 
+## Text auf Sonos und anderen Mediaplayern ausgeben
+
+Die Aktion **Say a TTS message with EVE** (`tts.eve_say`) spricht einen Text
+mit der EVE-Stimme auf einem Home-Assistant-Mediaplayer. Sie verwendet dieselben
+Kernfelder wie `tts.cloud_say`:
+
+```yaml
+action: tts.eve_say
+data:
+  entity_id: media_player.sonos_wohnzimmer
+  message: "Hallo, hier ist EVE."
+```
+
+Die Lautsprecher-ID an deine Installation anpassen. `entity_id` akzeptiert auch
+eine Liste von Mediaplayern. Mit einer geladenen EVE-TTS-Entität wird diese
+automatisch gewählt. Bei mehreren muss `tts_entity_id` ausdrücklich angegeben
+werden, zum Beispiel `tts.eve_tts`. Umbenannte Entitäten werden berücksichtigt.
+
+Optional sind `language` (eine vom EVE-Server unterstützte Sprache), `cache`
+(Standard: `false`) und `options`, etwa `preferred_format: mp3` für eine
+Formatkonvertierung durch Home Assistant. Der Text wird unverändert übertragen;
+der Aufruf startet kein Gespräch. Home Assistant übernimmt die Wiedergabe und
+muss für die Lautsprecher im Netzwerk erreichbar sein.
+
+EVE kann die Aktion über ihr Home-Assistant-Werkzeug mit Domain `tts`, Service
+`eve_say` und den obigen Daten aufrufen. Dafür ist keine Änderung der Assist-API
+und kein Update des EVE-Servers erforderlich; das Werkzeug muss die neue Aktion
+zulassen. Nach Installation der geänderten Integration Home Assistant neu starten
+und gegebenenfalls die Aktionsliste im Werkzeug aktualisieren.
+
+Die Standardaktion `tts.speak` mit der EVE-TTS-Entität als Ziel bleibt verfügbar.
+
 ## Ereignisse aus Automationen senden
 
 Ab Version **0.2.0** steht die Aktion **EVE: Ereignis senden** (`eve_agent.send_event`)
